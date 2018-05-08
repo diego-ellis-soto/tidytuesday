@@ -14,7 +14,7 @@ library(maps)
 library(janitor)
 
 coffee <-
-  read_excel("C:\\Users\\isabellav\\Downloads\\week6_coffee_chains.xlsx") %>% 
+  read_excel(".//data//week6_coffee_chains.xlsx") %>% 
   clean_names()
 
 coffee <- 
@@ -51,20 +51,30 @@ theme <-
         plot.caption = element_text(colour="#3C3C3C",size=10),  
         plot.margin = unit(c(0, 0, 0, 0), "cm"))
 
-plot <- 
+map_brands <- 
   ggplot() +   
   # base layer of map dots
   geom_point(data = dots, aes(x = long, y = lat), col = "#F2EEE9", size = 0.7) + 
   geom_point(data = coffee %>% filter(brand == 'Starbucks'), aes(x = long_round, y = lat_round), color = "#43634A", size = 0.7) +
   geom_point(data = coffee %>% filter(brand == 'Teavana'), aes(x = long_round, y = lat_round), color = "#AD7E5C", size = 0.7) +
   geom_point(data = coffee %>% filter(brand == 'Coffee House Holdings'), aes(x = long_round, y = lat_round), color = "#E7E1D5", size = 0.7) +
-  geom_point(data = coffee %>% filter(brand == 'Coffee House Holdings'), aes(x = long_round, y = lat_round), color = "#5D3B24", size = 0.7) +
+  geom_point(data = coffee %>% filter(brand == 'Evolution Fresh'), aes(x = long_round, y = lat_round), color = "#5D3B24", size = 0.7) +
   theme
 
-plot
+map_brands
 
-ggsave('map_full.jpg', 
-       device = 'jpg', 
+map_empty <- 
+  ggplot() +   
+  # base layer of map dots
+  geom_point(data = dots, aes(x = long, y = lat), col = "#F2EEE9", size = 0.7) + 
+  geom_point(data = coffee, aes(x = long_round, y = lat_round), color = "#212121", size = 0.7) +
+  theme
+
+map_empty
+
+ggsave('.//plot//map_empty.png', 
+       plot = map_empty,
+       device = 'png', 
        path = getwd(), 
        width = 360, 
        height = 180, 
